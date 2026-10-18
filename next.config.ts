@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Static export: `next build` writes plain HTML/CSS/JS to `out/`, which
+  // Cloudflare Workers serves as static assets (see wrangler.jsonc).
+  output: "export",
+  // The default image loader needs a server; static export serves originals.
+  images: { unoptimized: true },
   experimental: {
     agentFeedback: true,
   },
-  cacheComponents: true,
-  partialPrefetching: true,
   turbopack: {
     rules: {
       "*.css": {

@@ -1,0 +1,9 @@
+{
+  "name": "pojok-capy",
+  "compatibility_date": "2026-10-18",
+  // Static export from `next build` (output: "export" in next.config.ts).
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
