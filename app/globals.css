@@ -1,26 +1,170 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Pojok Capy design tokens (single light theme). */
+@theme {
+  --color-terracotta: #bc693f;
+  --color-terracotta-deep: #9a4f2a;
+  --color-terracotta-press: #7f3f20;
+  --color-terracotta-mid: #d9a27f;
+  --color-terracotta-soft: #ebcfb8;
+  --color-peach: #f2c9a8;
+  --color-putih-jeda: #ffffff;
+  --color-surface: #faf3ea;
+  --color-surface-alt: #f2e6d6;
+  --color-surface-raised: #fffbf5;
+  --color-line: #eadbc8;
+  --color-line-strong: #d9bba3;
+  --color-ink: #3a2419;
+  --color-ink-muted: #6b4a38;
+  --color-on-terracotta: #fffbf5;
+  --color-on-ink: #e8d9c6;
+
+  /* Only buttons and the logo circle are fully round; everything else is flat or radius-sm. */
+  --radius-sm: 12px;
+
+  --container-content: 1200px;
+
+  --animate-rise: reveal 0.6s ease-out both;
+  /* Hero only: its entrance, the floating logo mark and the keyword ticker under it. */
+  --animate-hero-rise: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-ticker: ticker 45s linear infinite;
+  /* Menu "Coming soon": each letter bobs once, then rests. Stagger letters with animation-delay. */
+  --animate-bob: bob 3.2s ease-in-out infinite;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nunito-sans), "Segoe UI", sans-serif;
+  --font-display: var(--font-fredoka), "Trebuchet MS", sans-serif;
+  /* Handwritten accent. Keep it to photo captions and the "Catatan kecil" note. */
+  --font-hand: var(--font-kalam), "Comic Sans MS", cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Uses `transform`, so it can sit inside an element animated with `hero-rise`. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-1.5deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  30%,
+  100% {
+    translate: 0 0;
+  }
+  15% {
+    translate: 0 -0.12em;
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  :where(a, button, summary, [tabindex]):focus-visible {
+    outline: 2px solid transparent;
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-terracotta-deep);
+  }
+}
+
+/* Page-width container with the responsive side gutter. */
+@utility page-container {
+  box-sizing: border-box;
+  margin-inline: auto;
+  max-width: var(--container-content);
+  padding-inline: clamp(20px, 5vw, 56px);
+}
+
+@utility px-gutter {
+  padding-inline: clamp(20px, 5vw, 56px);
+}
+
+@utility py-section {
+  padding-block: clamp(72px, 9vw, 120px);
+}
+
+/* Text link whose underline slides in from the left on hover and stays drawn
+   for aria-current. Meant for single-line links that may be taller than their
+   text (44px touch targets), so the line is placed relative to the box middle. */
+@utility link-underline {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(50% - 0.85em);
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after,
+  &[aria-current]::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}
+
+/* Fades a section in as it scrolls into view. Browsers without scroll-driven
+   animations, and reduced-motion users, just see it. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
 }
