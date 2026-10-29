@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MenuRow } from "@/components/menu-row";
+import { MenuTeaser } from "@/components/menu-teaser";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { Eyebrow, SectionHeader } from "@/components/ui/section-header";
 import { StatementBand } from "@/components/ui/statement-band";
 import { cn } from "@/lib/cn";
 import { faqs } from "@/lib/faq";
-import { featuredItems } from "@/lib/menu";
 import { site } from "@/lib/site";
 import logoMark from "@/public/brand/logo-mark.png";
 
@@ -169,11 +168,7 @@ export default function Home() {
               title="Coba ini dulu"
               className="lg:col-start-1 lg:row-start-1"
             />
-            <ul className="border-t-2 border-ink pt-2 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-              {featuredItems.map((item) => (
-                <MenuRow key={item.name} item={item} />
-              ))}
-            </ul>
+            <MenuTeaser className="lg:col-start-2 lg:row-span-2 lg:row-start-1" />
             <Link
               href="/menu"
               className={cn(

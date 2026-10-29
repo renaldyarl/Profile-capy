@@ -50,6 +50,21 @@ export function MenuRow({
           {item.options}
         </p>
       )}
+      {item.labels && item.labels.length > 0 && (
+        <p className="mt-1 text-[13px] font-bold text-ink-muted">
+          {item.labels.join(" · ")}
+        </p>
+      )}
     </li>
+  );
+}
+
+/** Stands in for a menu row while the menu loads; about as tall as a real one. */
+export function MenuRowPlaceholder() {
+  return (
+    <li
+      aria-hidden="true"
+      className="my-3 h-[76px] rounded-sm bg-surface-alt motion-safe:animate-pulse"
+    />
   );
 }

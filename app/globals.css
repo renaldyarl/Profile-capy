@@ -29,8 +29,6 @@
   --animate-hero-rise: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-float: float 7s ease-in-out infinite;
   --animate-ticker: ticker 45s linear infinite;
-  /* Menu "Coming soon": each letter bobs once, then rests. Stagger letters with animation-delay. */
-  --animate-bob: bob 3.2s ease-in-out infinite;
 }
 
 @theme inline {
@@ -70,17 +68,6 @@
   }
   50% {
     transform: translateY(-10px) rotate(-1.5deg);
-  }
-}
-
-@keyframes bob {
-  0%,
-  30%,
-  100% {
-    translate: 0 0;
-  }
-  15% {
-    translate: 0 -0.12em;
   }
 }
 

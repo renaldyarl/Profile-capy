@@ -18,6 +18,8 @@ type ButtonProps = {
   size?: "md" | "sm";
   icon?: IconName;
   className?: string;
+  /** Only for the `<button>` form, i.e. without `href`. */
+  onClick?: () => void;
   children: ReactNode;
 };
 
@@ -27,6 +29,7 @@ export function Button({
   size = "md",
   icon,
   className,
+  onClick,
   children,
 }: ButtonProps) {
   const classes = cn(
@@ -50,7 +53,7 @@ export function Button({
     );
   }
   return (
-    <button type="button" className={classes}>
+    <button type="button" onClick={onClick} className={classes}>
       {content}
     </button>
   );
